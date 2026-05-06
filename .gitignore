@@ -1,0 +1,21 @@
+cat > .gitignore << 'EOF'
+/vendor/
+/node_modules/
+/storage/
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea/
+.vscode/
+.DS_Store
+public/storage
+public/hot
+*.log
+.htaccess
+/.phpunit.cache
+EOFvendor/
+node_modules/
