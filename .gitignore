@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /vendor/
+=======
+vendor/
+>>>>>>> 20ada99 (second commit)
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -28,3 +32,7 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+<<<<<<< HEAD
+=======
+storage/
+>>>>>>> 20ada99 (second commit)
