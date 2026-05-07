@@ -1,15 +1,31 @@
-<div class="w-64 bg-gray-200 p-5 flex flex-col">
-    
-    <h1 class="text-2xl font-semibold mb-8">Todo List</h1>
+<div class="w-[270px] min-h-screen bg-[#f3f3f7] border-r border-gray-200 p-4">
 
-    <nav class="space-y-3">
-        <a href="#" class="flex items-center gap-2 p-3 rounded-lg bg-yellow-200">
-            🏠 Dashboard
+    {{-- Logo --}}
+    <div class="mb-10 text-center">
+        <h1 class="text-[38px] font-medium text-black">
+            Todo List
+        </h1>
+    </div>
+
+    {{-- Navigation --}}
+    <nav class="space-y-4">
+
+        {{-- Dashboard --}}
+        <a href="#"
+           class="flex items-center gap-3 bg-[#f6e5c7] px-4 py-3 rounded-full text-[20px] text-black font-normal hover:scale-[1.02] transition">
+
+            <span class="text-xl">🏠</span>
+            <span>Dashboard</span>
         </a>
 
-        <a href="#" class="flex items-center gap-2 p-3 rounded-lg bg-blue-300 text-white">
-            📋 My Tasks
+        {{-- Tasks --}}
+        <a href="#"
+           class="flex items-center gap-3 bg-[#9bc4f0] px-4 py-3 rounded-full text-[20px] text-black font-normal hover:scale-[1.02] transition">
+
+            <span class="text-xl">📋</span>
+            <span>My Tasks</span>
         </a>
+
     </nav>
 
 </div>
