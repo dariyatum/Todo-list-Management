@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $table = 'Task';
+        protected $table = 'Task';
 
     protected $primaryKey = 'id';
-
+    
     protected $fillable = [
         'title',
         'description',
@@ -18,4 +18,5 @@ class Task extends Model
         'created_at',
         'updated_at'
     ];
+
 }
