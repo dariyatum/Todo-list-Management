@@ -1,5 +1,9 @@
 <?php
 
+// Add this line
+require_once __DIR__.'/../bootstrap/temp.php';
+
+// Rest of the file...
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
