@@ -1,21 +1,38 @@
-cat > .gitignore << 'EOF'
+<<<<<<< HEAD
 /vendor/
-/node_modules/
-/storage/
-.env
-.env.backup
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
+=======
+vendor/
+>>>>>>> 20ada99 (second commit)
+node_modules/
 npm-debug.log
 yarn-error.log
-/.idea/
-.vscode/
-.DS_Store
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
 public/storage
 public/hot
-*.log
-.htaccess
-/.phpunit.cache
-EOFvendor/
-node_modules/
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+/public/build
+/storage/pail
+.env.backup
+.env.production
+.phpactor.json
+auth.json
+<<<<<<< HEAD
+=======
+storage/
+>>>>>>> 20ada99 (second commit)
