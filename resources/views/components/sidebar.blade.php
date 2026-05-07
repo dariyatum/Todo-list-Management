@@ -11,31 +11,28 @@
     {{-- Navigation --}}
     <nav class="space-y-5">
 
-        {{-- Dashboard --}}
-        <a href="#"
-           class="menu-item dashboard-item group">
+       {{-- Dashboard --}}
+<a href="{{ route('dashboard') }}" class="menu-item dashboard-item group">
 
-            <div class="icon-box">
-                {{-- Home Icon --}}
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.8"
-                     stroke="currentColor"
-                     class="w-5 h-5">
+    <div class="icon-box">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke-width="1.8"
+             stroke="currentColor"
+             class="w-5 h-5">
 
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h3.75v-4.5h4.5V21H18a1.5 1.5 0 0 0 1.5-1.5V9.75" />
-                </svg>
-            </div>
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h3.75v-4.5h4.5V21H18a1.5 1.5 0 0 0 1.5-1.5V9.75" />
+        </svg>
+    </div>
 
-            <span>Dashboard</span>
-        </a>
+    <span>Dashboard</span>
+</a>    
 
         {{-- Tasks --}}
-        <a href="#"
-           class="menu-item task-item group">
+        <a href="{{ route('mytasks') }}" class="menu-item task-item group">
 
             <div class="icon-box">
                 {{-- Task Icon --}}
