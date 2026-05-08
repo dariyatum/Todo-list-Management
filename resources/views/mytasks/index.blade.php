@@ -6,6 +6,9 @@
 
 <div class="task-wrapper">
 
+    {{-- ADD TASK COMPONENT --}}
+    <x-add-task-modal />
+
     {{-- DATE SELECTOR --}}
     <div class="date-scroll">
 
@@ -106,7 +109,7 @@
 
                 <div>
                     <span class="badge status">
-                        Medium
+                        Active
                     </span>
                 </div>
 
