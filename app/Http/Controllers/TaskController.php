@@ -20,14 +20,21 @@ class TaskController extends Controller
         return view('tasks.index'); 
     }
         public function store(Request $request){
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $phone = $request->input('phone');
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $due_date = $request->input('due_date');
+        $status = $request->input('status');
+        $priority = $request->input('priority');
+
 
         Task::create([
-            'full_name' => $name,
-            'email' => $email,
-            'phone'=> $phone,
+            'title' => $title,
+            'description' => $description,
+            'due_date'=> $due_date,
+            'status'=> $status,
+            'priority'=> $priority,
+
+
         ]);
         return redirect()->back()->with('success', 'You have already added a new tenant successfully');
     }
