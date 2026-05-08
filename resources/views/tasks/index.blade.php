@@ -69,47 +69,35 @@
         </div>
 
 
-        {{-- TASK ROW --}}
-        @php
-            $colors = [
-                'purple',
-                'green',
-                'yellow',
-                'blue',
-                'beige'
-            ];
-        @endphp
+        @foreach ($tasks as $task)
 
-        @for($i = 0; $i < 10; $i++)
-
-            <div class="task-row {{ $colors[$i % count($colors)] }}">
+            <div class="task-row ">
 
                 <div class="task-info">
 
                     <input type="checkbox">
 
-                    <img src="https://i.pravatar.cc/100?img={{ $i+10 }}" alt="user">
 
                     <div>
-                        <h4>Set up laravel 13</h4>
-                        <p>for full stack</p>
+                        <h4>{{ $task->title }}</h4>
+                        <p>{{ $task->description }}</p>
                     </div>
 
                 </div>
 
                 <div class="due-date">
-                    Today, 8:00AM
+                    {{ $task->due_date }}
                 </div>
 
                 <div>
                     <span class="badge priority">
-                        Medium
+                      {{ $task->priority }}
                     </span>
                 </div>
 
                 <div>
                     <span class="badge status">
-                        Active
+                        {{ $task->status }}
                     </span>
                 </div>
 
@@ -127,7 +115,7 @@
 
             </div>
 
-        @endfor
+        @endforeach
 
     </div>
 
@@ -270,6 +258,8 @@
     border-radius:14px;
     margin-bottom:12px;
     min-width:900px;
+    background-color: #d9c3f2;
+    border: 1px solid grey;
 }
 
 .task-info{
