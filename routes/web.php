@@ -7,4 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/tasks', [TaskController::class, 'index'])->name('task');
+
+Route::get('profile', function () {
+    return view('profile');
+});
