@@ -14,3 +14,10 @@ Route::get('/tasks', function () {
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('tasks/show', [TaskController::class, 'show'])->name('tasks.show');
     Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+
+
+
+
+
+    Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
+    
