@@ -13,12 +13,12 @@ class TaskController extends Controller
 
     }
     
-    public function show()
-    {
-        $tasks = Task::all();
+public function show($id)
+{
+    $task = Task::findOrFail($id);
 
-        return view('tasks.index'); 
-    }
+    return view('tasks.show', compact('task'));
+}
         public function store(Request $request){
         $title = $request->input('title');
         $description = $request->input('description');

@@ -51,6 +51,7 @@
 
 
     {{-- TASK TABLE --}}
+
     <div class="task-table">
 
         {{-- HEADER --}}
@@ -70,7 +71,7 @@
 
 
         @foreach ($tasks as $task)
-
+<a href="{{ route('tasks.show', $task->id) }}">
             <div class="task-row ">
 
                 <div class="task-info">
@@ -114,6 +115,7 @@
                 </div>
 
             </div>
+</a>
 
         @endforeach
 
