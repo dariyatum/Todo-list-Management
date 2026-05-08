@@ -26,8 +26,7 @@
 
 
             <!-- FORM (ENHANCED: with DETAILS field + Color + Status + Priority) -->
-            <form action="" method="POST" id="taskForm">
-
+                 <form method="POST" action="{{ route('tasks.store')}}"
                 @csrf
 
                 <div class="form-group">

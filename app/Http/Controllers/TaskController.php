@@ -6,11 +6,33 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-   public function index(){
-        return Task::all();
+  public function index(){
+    $tasks = Task::paginate(5);
+
+        return view('tasks.index',compact('tasks'));
+
     }
-    public function show(){
+    
+    public function show()
+    {
         $tasks = Task::all();
-        return $tasks;
+        dd($tasks);
+        return view('tasks.index'); 
     }
+        public function store(Request $request){
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+
+        Task::create([
+            'full_name' => $name,
+            'email' => $email,
+            'phone'=> $phone,
+        ]);
+        return redirect()->back()->with('success', 'You have already added a new tenant successfully');
+    }
+
+    
+
+  
 }

@@ -32,7 +32,7 @@
 </a>    
 
         {{-- Tasks --}}
-        <a href="{{ route('mytasks') }}" class="menu-item task-item group">
+        <a href="{{ route('tasks') }}" class="menu-item task-item group">
 
             <div class="icon-box">
                 {{-- Task Icon --}}
