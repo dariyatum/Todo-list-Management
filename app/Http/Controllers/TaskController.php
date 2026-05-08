@@ -16,7 +16,7 @@ class TaskController extends Controller
     public function show()
     {
         $tasks = Task::all();
-        dd($tasks);
+
         return view('tasks.index'); 
     }
         public function store(Request $request){

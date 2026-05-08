@@ -1,577 +1,511 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Detail View</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{{-- resources/views/tasks/show.blade.php --}}
 
-        body {
-            background: linear-gradient(135deg, #f5f7fe 0%, #eef2fa 100%);
-            font-family: 'Segoe UI', system-ui, 'Inter', -apple-system, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
+@extends('layouts.app')
 
-        /* DETAIL CARD */
-        .detail-container {
-            max-width: 650px;
-            width: 100%;
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+@section('content')
 
-        /* Color header bar */
-        .detail-color-bar {
-            height: 8px;
-            width: 100%;
-            transition: background 0.2s ease;
-        }
+<div class="task-detail-wrapper">
 
-        .detail-content {
-            padding: 32px 34px 38px;
-        }
-
-        /* Header section */
-        .detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .title-section {
-            flex: 1;
-        }
-
-        .task-title {
-            font-size: 1.9rem;
-            font-weight: 800;
-            background: linear-gradient(120deg, #1e2b3c, #2c3e66);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-            word-break: break-word;
-        }
-
-        .task-id {
-            font-size: 0.7rem;
-            color: #8d9bb0;
-            margin-top: 8px;
-            font-family: monospace;
-        }
-
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .edit-btn, .delete-btn {
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .edit-btn {
-            background: #4c35ff10;
-            color: #4c35ff;
-            border: 1.5px solid #4c35ff30;
-        }
-
-        .edit-btn:hover {
-            background: #4c35ff;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .delete-btn {
-            background: #fee2e2;
-            color: #c0392b;
-            border: 1px solid #fccaca;
-        }
-
-        .delete-btn:hover {
-            background: #fccaca;
-            transform: translateY(-2px);
-        }
-
-        /* Detail fields */
-        .detail-field {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        .detail-field:last-of-type {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            color: #5f7f9e;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .detail-label i {
-            font-size: 0.8rem;
-            color: #4c35ff;
-        }
-
-        .detail-value {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1a2c3e;
-            line-height: 1.55;
-            word-break: break-word;
-        }
-
-        /* Color preview */
-        .color-preview-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .color-preview-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .color-hex {
-            font-family: monospace;
-            background: #f1f5f9;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-        }
-
-        /* Status & Priority badges */
-        .status-badge, .priority-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .status-badge {
-            background: #eef2ff;
-            color: #2c3e66;
-        }
-
-        .priority-badge {
-            background: #fff4e6;
-            color: #e67e22;
-        }
-
-        .priority-badge.high {
-            background: #fee2e2;
-            color: #c0392b;
-        }
-
-        .priority-badge.medium {
-            background: #fff4e6;
-            color: #e67e22;
-        }
-
-        .priority-badge.low {
-            background: #e8f8f0;
-            color: #27ae60;
-        }
-
-        /* Description box */
-        .description-box {
-            background: #fafcff;
-            border-radius: 20px;
-            padding: 16px 20px;
-            margin-top: 8px;
-            border: 1px solid #eef2f8;
-            line-height: 1.6;
-        }
-
-        /* Empty / placeholder state */
-        .empty-detail {
-            text-align: center;
-            padding: 60px 30px;
-            color: #a0b3cc;
-        }
-
-        .empty-detail i {
-            font-size: 64px;
-            opacity: 0.4;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        /* Loading skeleton */
-        .skeleton {
-            animation: pulse 1.2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Responsive */
-        @media (max-width: 550px) {
-            .detail-content {
-                padding: 24px 20px;
-            }
-            .task-title {
-                font-size: 1.5rem;
-            }
-            .action-buttons {
-                width: 100%;
-                justify-content: flex-start;
-            }
-        }
-
-        /* Tooltip / meta */
-        .meta-date {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8fafd;
-            padding: 6px 14px;
-            border-radius: 40px;
-            width: fit-content;
-            font-size: 0.85rem;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <div class="detail-container" id="detailContainer">
-        <div class="detail-color-bar" id="colorBar" style="background: #4c35ff;"></div>
-        <div class="detail-content" id="detailContent">
-            <!-- Dynamic content will be injected here -->
-            <div class="empty-detail">
-                <i class="fas fa-folder-open"></i>
-                <h3>No Task Selected</h3>
-                <p style="margin-top: 8px;">Select a task to view its complete details</p>
-            </div>
-        </div>
+    {{-- BACK BUTTON --}}
+    <div class="back-navigation">
+        <a href="{{ route('tasks.index') }}" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Tasks
+        </a>
     </div>
 
-    <script>
-        // ========================
-        // TASK DETAIL COMPONENT
-        // ========================
-        // This is a standalone detail view that can render any task data.
-        // You can pass a task object to `renderTaskDetail(task)` function.
-        
-        // Sample task data for demonstration (simulating a task received from backend)
-        const sampleTask = {
-            id: "task_42",
-            title: "Redesign User Dashboard",
-            description: "Create a modern dashboard with analytics widgets, dark mode support, and responsive layout. Need to integrate new API endpoints for real-time data. Also include user preference settings and export functionality.",
-            due_date: "2026-06-15",
-            color: "#4c35ff",
-            status: "In Progress",
-            priority: "High",
-            created_at: "2026-05-01T10:30:00Z",
-            updated_at: "2026-05-08T14:22:00Z"
-        };
+    {{-- TASK DETAIL CARD --}}
+    <div class="detail-card" style="border-top: 8px solid {{ $task->color ?? '#4c35ff' }}">
 
-        const sampleTask2 = {
-            id: "task_99",
-            title: "Write Technical Documentation",
-            description: "Complete API documentation with Swagger. Include authentication flow, error codes, and example requests/responses for all endpoints.",
-            due_date: "2026-05-25",
-            color: "#20c997",
-            status: "Active",
-            priority: "Medium",
-            created_at: "2026-05-03T09:15:00Z"
-        };
+        {{-- HEADER WITH ACTIONS --}}
+        <div class="detail-header">
+            <div class="title-section">
+                <h1>{{ $task->title }}</h1>
+                <span class="task-id">#{{ $task->id }}</span>
+            </div>
+            <div class="action-buttons">
+                <a href="{{ route('tasks.edit', $task->id) }}" class="edit-action-btn">
+                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                </a>
+                <button class="delete-action-btn" onclick="deleteTask({{ $task->id }})">
+                    <i class="fa-regular fa-trash-can"></i> Delete
+                </button>
+            </div>
+        </div>
 
-        const sampleTask3 = {
-            id: "task_101",
-            title: "Fix Navigation Bug",
-            description: "Mobile menu not closing properly on touch devices. Investigate and fix the JavaScript event listeners.",
-            due_date: "2026-05-12",
-            color: "#f39c12",
-            status: "On Hold",
-            priority: "Low",
-            created_at: "2026-05-07T11:45:00Z"
-        };
+        {{-- TASK METADATA GRID --}}
+        <div class="info-grid">
 
-        // Helper: format date nicely
-        function formatDate(dateString) {
-            if (!dateString) return "Not set";
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) return dateString;
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        }
+            {{-- DESCRIPTION --}}
+            <div class="info-card full-width">
+                <div class="info-label">
+                    <i class="fa-solid fa-align-left"></i> Description
+                </div>
+                <div class="info-value description-text">
+                    {{ $task->description ?? 'No description provided' }}
+                </div>
+            </div>
 
-        function formatDateTime(dateString) {
-            if (!dateString) return "Unknown";
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) return dateString;
-            return date.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-        }
+            {{-- DUE DATE --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-regular fa-calendar"></i> Due Date
+                </div>
+                <div class="info-value due-date-value">
+                    {{ $task->due_date ? \Carbon\Carbon::parse($task->due_date)->format('F j, Y') : 'Not set' }}
+                    @if($task->due_date && \Carbon\Carbon::parse($task->due_date)->isPast() && $task->status != 'Completed')
+                        <span class="overdue-badge">Overdue</span>
+                    @endif
+                </div>
+            </div>
 
-        // Get priority class for styling
-        function getPriorityClass(priority) {
-            if (!priority) return 'medium';
-            const p = priority.toLowerCase();
-            if (p === 'high') return 'high';
-            if (p === 'low') return 'low';
-            return 'medium';
-        }
+            {{-- PRIORITY --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-solid fa-flag"></i> Priority
+                </div>
+                <div class="info-value">
+                    <span class="priority-badge priority-{{ strtolower($task->priority) }}">
+                        {{ $task->priority }}
+                    </span>
+                </div>
+            </div>
 
-        // Get color name helper (optional)
-        function getColorName(hex) {
-            const colors = {
-                "#4c35ff": "Indigo",
-                "#ff6b6b": "Coral",
-                "#20c997": "Teal",
-                "#f39c12": "Amber",
-                "#9b59b6": "Purple",
-                "#e84393": "Rose",
-                "#2ecc71": "Emerald",
-                "#3498db": "Sky Blue"
-            };
-            return colors[hex] || "Custom";
-        }
+            {{-- STATUS --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-solid fa-chart-simple"></i> Status
+                </div>
+                <div class="info-value">
+                    <span class="status-badge status-{{ strtolower(str_replace(' ', '-', $task->status)) }}">
+                        {{ $task->status }}
+                    </span>
+                </div>
+            </div>
 
-        // Main render function: displays task details in the container
-        function renderTaskDetail(task) {
-            const container = document.getElementById("detailContent");
-            const colorBar = document.getElementById("colorBar");
-            
-            if (!task || !task.id) {
-                // Show empty state
-                if (container) {
-                    container.innerHTML = `
-                        <div class="empty-detail">
-                            <i class="fas fa-folder-open"></i>
-                            <h3>No Task Selected</h3>
-                            <p style="margin-top: 8px;">Select a task to view its complete details</p>
-                        </div>
-                    `;
-                }
-                if (colorBar) colorBar.style.background = "#4c35ff30";
-                return;
+            {{-- COLOR --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-solid fa-palette"></i> Color
+                </div>
+                <div class="info-value">
+                    <div class="color-preview">
+                        <div class="color-circle" style="background: {{ $task->color ?? '#4c35ff' }}"></div>
+                        <span>{{ $task->color ?? '#4c35ff' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- CREATED AT --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-regular fa-clock"></i> Created
+                </div>
+                <div class="info-value">
+                    {{ $task->created_at ? \Carbon\Carbon::parse($task->created_at)->format('M j, Y g:i A') : 'Unknown' }}
+                </div>
+            </div>
+
+            {{-- UPDATED AT --}}
+            <div class="info-card">
+                <div class="info-label">
+                    <i class="fa-solid fa-pen"></i> Last Updated
+                </div>
+                <div class="info-value">
+                    {{ $task->updated_at ? \Carbon\Carbon::parse($task->updated_at)->diffForHumans() : 'Never' }}
+                </div>
+            </div>
+
+        </div>
+
+        {{-- QUICK ACTIONS --}}
+        <div class="quick-actions">
+            <h4>Quick Actions</h4>
+            <div class="action-buttons-group">
+                <button onclick="updateStatus({{ $task->id }}, 'Active')" class="quick-btn {{ $task->status == 'Active' ? 'active' : '' }}">
+                    <i class="fa-solid fa-play"></i> Active
+                </button>
+                <button onclick="updateStatus({{ $task->id }}, 'In Progress')" class="quick-btn {{ $task->status == 'In Progress' ? 'active' : '' }}">
+                    <i class="fa-solid fa-spinner"></i> In Progress
+                </button>
+                <button onclick="updateStatus({{ $task->id }}, 'Completed')" class="quick-btn {{ $task->status == 'Completed' ? 'active' : '' }}">
+                    <i class="fa-solid fa-check"></i> Completed
+                </button>
+                <button onclick="updateStatus({{ $task->id }}, 'On Hold')" class="quick-btn {{ $task->status == 'On Hold' ? 'active' : '' }}">
+                    <i class="fa-solid fa-pause"></i> On Hold
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.task-detail-wrapper {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+}
+
+/* BACK BUTTON */
+.back-navigation {
+    margin-bottom: 24px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #4c35ff;
+    color: white;
+    border-color: #4c35ff;
+    transform: translateX(-3px);
+}
+
+/* DETAIL CARD */
+.detail-card {
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    padding: 32px;
+}
+
+/* HEADER */
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.title-section h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.task-id {
+    font-size: 13px;
+    color: #999;
+    font-family: monospace;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.edit-action-btn, .delete-action-btn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.edit-action-btn {
+    background: #4c35ff10;
+    color: #4c35ff;
+    border: 1px solid #4c35ff30;
+}
+
+.edit-action-btn:hover {
+    background: #4c35ff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.delete-action-btn {
+    background: #fee2e2;
+    color: #c0392b;
+    border: 1px solid #fccaca;
+}
+
+.delete-action-btn:hover {
+    background: #fccaca;
+    transform: translateY(-2px);
+}
+
+/* INFO GRID */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.info-card {
+    background: #fafbfc;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid #eef2f8;
+}
+
+.info-card.full-width {
+    grid-column: span 2;
+}
+
+.info-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #5f7f9e;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label i {
+    font-size: 14px;
+}
+
+.info-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a2c3e;
+}
+
+.description-text {
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.due-date-value {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.overdue-badge {
+    background: #fee2e2;
+    color: #c0392b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* PRIORITY BADGES */
+.priority-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.priority-high {
+    background: #fee2e2;
+    color: #c0392b;
+}
+
+.priority-medium {
+    background: #fff4e6;
+    color: #e67e22;
+}
+
+.priority-low {
+    background: #e8f8f0;
+    color: #27ae60;
+}
+
+/* STATUS BADGES */
+.status-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.status-active {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-in-progress {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-completed {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-on-hold {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+/* COLOR PREVIEW */
+.color-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.color-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* QUICK ACTIONS */
+.quick-actions {
+    background: #f8f9fc;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 16px;
+    border: 1px solid #eef2f8;
+}
+
+.quick-actions h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.action-buttons-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.quick-btn {
+    padding: 10px 20px;
+    border-radius: 40px;
+    background: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.quick-btn.active {
+    background: #4c35ff;
+    color: white;
+    border-color: #4c35ff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .task-detail-wrapper {
+        padding: 20px;
+    }
+    
+    .detail-card {
+        padding: 20px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-card.full-width {
+        grid-column: span 1;
+    }
+    
+    .title-section h1 {
+        font-size: 24px;
+    }
+    
+    .detail-header {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+// Delete task function
+function deleteTask(taskId) {
+    if (confirm('⚠️ Are you sure you want to delete this task?')) {
+        fetch(`/tasks/${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
             }
-
-            // Update color bar
-            if (colorBar) colorBar.style.background = task.color || "#4c35ff";
-
-            const formattedDueDate = formatDate(task.due_date);
-            const priorityClass = getPriorityClass(task.priority);
-            const colorName = getColorName(task.color);
-            const createdDate = formatDateTime(task.created_at);
-            const updatedDate = formatDateTime(task.updated_at);
-
-            // Build status icon based on status text
-            let statusIcon = '<i class="fas fa-play-circle"></i>';
-            if (task.status === "Completed") statusIcon = '<i class="fas fa-check-circle"></i>';
-            else if (task.status === "In Progress") statusIcon = '<i class="fas fa-sync-alt"></i>';
-            else if (task.status === "On Hold") statusIcon = '<i class="fas fa-pause-circle"></i>';
-            
-            let priorityIcon = '<i class="fas fa-flag"></i>';
-            if (task.priority === "High") priorityIcon = '<i class="fas fa-fire"></i>';
-            else if (task.priority === "Low") priorityIcon = '<i class="fas fa-leaf"></i>';
-            
-            const detailHTML = `
-                <div class="detail-header">
-                    <div class="title-section">
-                        <h1 class="task-title">${escapeHtml(task.title)}</h1>
-                        <div class="task-id">
-                            <i class="fas fa-hashtag"></i> ID: ${escapeHtml(task.id)}
-                        </div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="edit-btn" id="editTaskBtn" onclick="onEditTask('${task.id}')">
-                            <i class="fas fa-pen"></i> Edit
-                        </button>
-                        <button class="delete-btn" id="deleteTaskBtn" onclick="onDeleteTask('${task.id}')">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </div>
-                </div>
-
-                <!-- DESCRIPTION FIELD (important) -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="fas fa-align-left"></i> DESCRIPTION
-                    </div>
-                    <div class="description-box">
-                        ${task.description ? escapeHtml(task.description) : '<span style="color: #aaa;"><i class="far fa-file-alt"></i> No description provided</span>'}
-                    </div>
-                </div>
-
-                <!-- DUE DATE -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="far fa-calendar-alt"></i> DUE DATE
-                    </div>
-                    <div class="detail-value">
-                        <span class="meta-date">
-                            <i class="far fa-calendar-check"></i> ${formattedDueDate}
-                            ${task.due_date && new Date(task.due_date) < new Date() ? '<span style="color:#c0392b; margin-left:8px;">⚠️ Overdue</span>' : ''}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- COLOR -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="fas fa-palette"></i> COLOR
-                    </div>
-                    <div class="detail-value">
-                        <div class="color-preview-wrapper">
-                            <div class="color-preview-circle" style="background: ${task.color};"></div>
-                            <span class="color-hex">${task.color} (${colorName})</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STATUS -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="fas fa-chart-line"></i> STATUS
-                    </div>
-                    <div class="detail-value">
-                        <span class="status-badge">
-                            ${statusIcon} ${escapeHtml(task.status)}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- PRIORITY -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="fas fa-flag-checkered"></i> PRIORITY
-                    </div>
-                    <div class="detail-value">
-                        <span class="priority-badge ${priorityClass}">
-                            ${priorityIcon} ${escapeHtml(task.priority)}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- METADATA (timestamps) -->
-                <div class="detail-field">
-                    <div class="detail-label">
-                        <i class="fas fa-info-circle"></i> METADATA
-                    </div>
-                    <div class="detail-value" style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.8rem;">
-                        <span><i class="far fa-clock"></i> Created: ${createdDate}</span>
-                        ${task.updated_at ? `<span><i class="fas fa-edit"></i> Updated: ${updatedDate}</span>` : ''}
-                    </div>
-                </div>
-            `;
-            
-            if (container) {
-                container.innerHTML = detailHTML;
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '{{ route("tasks.index") }}';
+            } else {
+                alert('Error deleting task');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    }
+}
+
+// Update status function
+function updateStatus(taskId, status) {
+    fetch(`/tasks/${taskId}/status`, {
+        method: 'PATCH',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error updating status');
         }
-
-        // Escape HTML to prevent XSS
-        function escapeHtml(str) {
-            if (!str) return "";
-            return String(str).replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                return c;
-            });
-        }
-
-        // ========== EDIT / DELETE CALLBACKS (you can override these) ==========
-        // These functions are just placeholders. You can connect them to your backend logic.
-        window.onEditTask = function(taskId) {
-            console.log("Edit task clicked for ID:", taskId);
-            alert(`✏️ Edit action triggered for task ${taskId}\n\nYou can connect this to your edit form/modal.`);
-            // Example: redirect to edit page or open edit modal
-            // window.location.href = `/edit-task/${taskId}`;
-            // or open a popup with task data pre-filled
-        };
-
-        window.onDeleteTask = function(taskId) {
-            console.log("Delete task clicked for ID:", taskId);
-            if (confirm(`⚠️ Are you sure you want to delete task "${taskId}"?`)) {
-                alert(`🗑️ Task ${taskId} would be deleted here.\nConnect this to your API backend.`);
-                // Example API call:
-                // fetch(`/api/tasks/${taskId}`, { method: 'DELETE' })
-                //    .then(() => { /* refresh list */ });
-            }
-        };
-
-        // ========== DEMO: Switch between sample tasks to see detail updates ==========
-        // This shows how you can dynamically load any task into the detail view.
-        let currentDemoIndex = 0;
-        const demoTasks = [sampleTask, sampleTask2, sampleTask3];
-
-        function cycleDemoTask() {
-            currentDemoIndex = (currentDemoIndex + 1) % demoTasks.length;
-            renderTaskDetail(demoTasks[currentDemoIndex]);
-        }
-
-        // Auto-load first sample task to demonstrate the detail page
-        // In real usage, you would call renderTaskDetail(yourTaskObject) when user selects a task.
-        setTimeout(() => {
-            renderTaskDetail(sampleTask);
-        }, 100);
-
-        // Optional: Add a floating button for demo purposes (only to show different tasks)
-        const demoBtn = document.createElement('button');
-        demoBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Demo: Next Task';
-        demoBtn.style.position = 'fixed';
-        demoBtn.style.bottom = '24px';
-        demoBtn.style.right = '24px';
-        demoBtn.style.backgroundColor = '#4c35ff';
-        demoBtn.style.color = 'white';
-        demoBtn.style.border = 'none';
-        demoBtn.style.padding = '12px 24px';
-        demoBtn.style.borderRadius = '40px';
-        demoBtn.style.fontWeight = '600';
-        demoBtn.style.cursor = 'pointer';
-        demoBtn.style.boxShadow = '0 6px 16px rgba(76,53,255,0.3)';
-        demoBtn.style.zIndex = '1000';
-        demoBtn.style.fontFamily = 'inherit';
-        demoBtn.onclick = cycleDemoTask;
-        document.body.appendChild(demoBtn);
-        
-        
-    </script>
-</body>
-</html>
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred');
+    });
+}
+</script>

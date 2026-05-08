@@ -18,4 +18,6 @@ Route::get('/', function () {
 
 
     Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
-    
+Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::patch('/tasks/{id}/status', [TaskController::class, 'updateStatus'])->name('tasks.update-status');
