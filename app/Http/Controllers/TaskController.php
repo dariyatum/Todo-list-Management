@@ -39,7 +39,34 @@ public function show($id)
         return redirect()->back()->with('success', 'You have already added a new tenant successfully');
     }
 
-    
+    public function edit($id) {
+        $task = Task::findOrFail($id);
 
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function update(Request $request, $id){
+        $task = Task::findOrFail($id);
+
+        $task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+            'priority' => $request->priority,
+        ]);
+
+        return redirect()->route('tasks')
+        ->with('success', 'Task updated successfully');
+    }
+    public function destroy($id)
+    {
+        $task = Task::findOrFail($id);
+
+        $task->delete();
+
+        return redirect()->route('tasks')
+            ->with('success', 'Task deleted successfully');
+    }
   
 }

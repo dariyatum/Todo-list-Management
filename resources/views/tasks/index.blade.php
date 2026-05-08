@@ -70,91 +70,74 @@
         </div>
 
 
-        @foreach ($tasks as $task)
-<a href="{{ route('tasks.show', $task->id) }}">
-            <div class="task-row ">
+@foreach ($tasks as $task)
 
-                <div class="task-info">
+<div class="task-row">
 
-                    <input type="checkbox">
+    <div class="task-info">
 
+        <input type="checkbox">
 
-                    <div>
-                        <h4>{{ $task->title }}</h4>
-                        <p>{{ $task->description }}</p>
-                    </div>
+        <div>
+            <h4>
+                <a href="{{ route('tasks.show', $task->id) }}" class="task-link">
+                    {{ $task->title }}
+                </a>
+            </h4>
 
-                </div>
+            <p>{{ $task->description }}</p>
+        </div>
 
-                <div class="due-date">
-                    {{ $task->due_date }}
-                </div>
+    </div>
 
-                <div>
-                    <span class="badge priority">
-                      {{ $task->priority }}
-                    </span>
-                </div>
+    <div class="due-date">
+        {{ $task->due_date }}
+    </div>
 
-                <div>
-                    <span class="badge status">
-                        {{ $task->status }}
-                    </span>
-                </div>
+    <div>
+        <span class="badge priority">
+            {{ $task->priority }}
+        </span>
+    </div>
 
-                <div class="actions">
+    <div>
+        <span class="badge status">
+            {{ $task->status }}
+        </span>
+    </div>
 
-                    <button class="delete-btn">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
+    <div class="actions">
 
-                    <button class="edit-btn">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
+        {{-- DELETE --}}
+        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
 
-                </div>
+            @csrf
+            @method('DELETE')
 
-            </div>
-</a>
+            <button type="submit" class="delete-btn">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
 
-        @endforeach
+        </form>
+
+        {{-- EDIT --}}
+        <a href="{{ route('tasks.edit', $task->id) }}" class="edit-btn">
+            <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+
+    </div>
+
+</div>
+
+@endforeach
 
     </div>
 
 
     {{-- PAGINATION --}}
-    <div class="pagination">
-
-        <button class="page-btn disabled">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <button class="page-btn active">
-            1
-        </button>
-
-        <button class="page-btn">
-            2
-        </button>
-
-        <button class="page-btn">
-            ...
-        </button>
-
-        <button class="page-btn">
-            9
-        </button>
-
-        <button class="page-btn">
-            10
-        </button>
-
-        <button class="page-btn">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
-    </div>
-
+<div class="pagination-wrapper">
+    {{ $tasks->links() }}
+</div>
 </div>
 
 @endsection
@@ -344,12 +327,7 @@
     gap:14px;
 }
 
-.actions button{
-    border:none;
-    background:none;
-    cursor:pointer;
-    font-size:18px;
-}
+
 
 .delete-btn{
     color:#ff5e3a;
@@ -426,6 +404,23 @@
         padding:6px 12px;
     }
 
+}
+.task-link{
+    text-decoration:none;
+    color:inherit;
+}
+
+.task-link:hover{
+    opacity:0.8;
+}
+
+.delete-btn,
+.edit-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:18px;
+    text-decoration:none;
 }
 
 </style>
