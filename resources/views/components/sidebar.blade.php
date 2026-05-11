@@ -22,11 +22,10 @@
              stroke="currentColor"
              class="w-5 h-5">
 
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h3.75v-4.5h4.5V21H18a1.5 1.5 0 0 0 1.5-1.5V9.75" />
-        </svg>
-    </div>
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h3.75v-4.5h4.5V21H18a1.5 1.5 0 0 0 1.5-1.5V9.75" />
+            </svg>
 
     <span>Dashboard</span>
 </a>    
