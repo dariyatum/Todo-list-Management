@@ -79,6 +79,7 @@
         <input type="checkbox">
 
         <div>
+
             <h4>
                 <a href="{{ route('tasks.show', $task->id) }}" class="task-link">
                     {{ $task->title }}
@@ -86,6 +87,7 @@
             </h4>
 
             <p>{{ $task->description }}</p>
+
         </div>
 
     </div>
@@ -151,7 +153,6 @@
 /* ONLY TASK PAGE */
 
 .task-wrapper{
-    padding:40px;
     width:100%;
     font-family:'Inter',sans-serif;
     color:#222;
@@ -382,9 +383,6 @@
 
 @media(max-width:768px){
 
-    .task-wrapper{
-        padding:20px;
-    }
 
     .date-card{
         min-width:90px;
@@ -421,6 +419,38 @@
     cursor:pointer;
     font-size:18px;
     text-decoration:none;
+}
+.task-link{
+    text-decoration:none;
+    color:#222;
+    transition:0.2s;
+}
+
+.task-link:hover{
+    color:#5533ff;
+}
+
+.delete-btn,
+.edit-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.delete-btn{
+    color:#ff5e3a;
+}
+
+.edit-btn{
+    color:#5533ff;
+}
+
+.actions form{
+    margin:0;
 }
 
 </style>
