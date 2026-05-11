@@ -166,6 +166,7 @@
     gap:24px;
     margin-bottom:40px;
     overflow-x:auto;
+    justify-content: center;
 }
 
 .date-card{
