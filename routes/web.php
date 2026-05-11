@@ -15,6 +15,10 @@ Route::get('/test', function () {
 });
 
 
+Route::get('/form-profile', function () {
+    return view('form-profile');
+});
+
 Route::get('/profile', function () {
     return view('profile');
 });

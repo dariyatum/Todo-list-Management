@@ -1,178 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+<body class="bg-gray-200 min-h-screen ">
+  @extends('layouts.app')
 
-<body>
-    @extends('layouts.app')
+@section('content')
+<div>
+    <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        
+        <div class="h-32 bg-gradient-to-r from-purple-300 to-pink-300"></div>
 
-    @section('content')
-
-    <div class=" flex items-center justify-center min-h-screen ">
-
-        <div class="bg-white w-full  rounded-sm shadow-lg border">
-
-
-            <!-- Content -->
-            <div class="flex flex-col md:flex-row gap-10 p-10">
-
-                <!-- Profile Image -->
-                <div class="relative w-32 h-32">
-
-                    <!-- Image -->
+        <div class="relative px-8 pb-8">
+            <div class="flex flex-col items-center -mt-20">
+                <div class="relative group">
                     <img
                         src="https://i.pinimg.com/1200x/5d/5a/93/5d5a93d474d9ed4ce1866527be582334.jpg"
                         alt="profile"
-                        class="w-full h-full rounded-full border-4 border-purple-300 object-cover" />
-
-                    <!-- Camera Icon On Image -->
-                    <div class="absolute bottom-2 right-2 bg-gradient-to-r from-purple-400 to-indigo-300 w-9 h-9 rounded-full flex items-center justify-center text-white shadow-lg cursor-pointer">
-                        <i class="fa-solid fa-camera text-sm"></i>
-                    </div>
-
+                        class="w-40 h-40 rounded-full object-cover border-4  border-purple-300 shadow-2xl transition-transform duration-300 group-hover:scale-105"
+                    >
+                    <button class="absolute bottom-2 right-2 bg-gradient-to-r from-purple-400 to-indigo-300 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg transition-colors">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
                 </div>
-                <!-- Form -->
-                <div class="flex-1">
 
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6">
-                        Personal Information
-                    </h2>
-
-                    <!-- Name -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-
-                        <!-- First Name -->
-                        <div>
-                            <label class="block text-gray-500 font-semibold mb-2">
-                                First Name
-                            </label>
-
-                            <input
-                                type="text"
-                                placeholder="Nita"
-                                class="w-full border border-gray-400 rounded-full px-6 py-4 outline-none focus:ring-2 focus:ring-purple-400" />
-                        </div>
-
-                        <!-- Last Name -->
-                        <div>
-                            <label class="block text-gray-500 font-semibold mb-2">
-                                Last Name
-                            </label>
-
-                            <input
-                                type="text"
-                                placeholder="Chheunu"
-                                class="w-full border border-gray-400 rounded-full px-6 py-4 outline-none focus:ring-2 focus:ring-purple-400" />
-                        </div>
-
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="mb-5">
-
-                        <label class="block text-gray-500 font-semibold mb-2">
-                            Phone Number
-                        </label>
-
-
-                        <div class="relative">
-
-                            <i class="fa-solid fa-mobile-screen absolute left-6 top-1/2 -translate-y-1/2 text-gray-400"></i>
-
-                            <input
-                                type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-
-                                placeholder="Enter your phone no"
-                                class="w-full border border-gray-400 rounded-full pl-14 pr-6 py-4 outline-none focus:ring-2 focus:ring-purple-400" />
-                        </div>
-
-                    </div>
-
-                    <!-- Email -->
-                    <div class="mb-8">
-
-                        <label class="block text-gray-500 font-semibold mb-2">
-                            Email
-                        </label>
-                        <div class="relative">
-
-                            <!-- Icon -->
-                            <i class="fa-regular fa-envelope absolute left-6 top-1/2 -translate-y-1/2 text-gray-400"></i>
-
-                            <!-- Input -->
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="email@gmail.com"
-                                class="w-full border border-gray-400 rounded-full pl-14 pr-6 py-4 outline-none focus:ring-2 focus:ring-purple-400">
-
-                        </div>
-
-                    </div>
-
-                    <!-- Address -->
-                    <h2 class="text-3xl font-bold text-gray-800 mb-5">
-                        Personal Address
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-                        <!-- Country -->
-                        <div>
-
-                            <label class="block text-gray-500 font-semibold mb-2">
-                                Country
-                            </label>
-
-                            <input
-                                type="text"
-                                placeholder="Cambodia"
-                                class="w-full border border-gray-400 rounded-full px-6 py-4 outline-none focus:ring-2 focus:ring-purple-400" />
-
-                        </div>
-
-                        <!-- City -->
-                        <div>
-
-                            <label class="block text-gray-500 font-semibold mb-2">
-                                City
-                            </label>
-
-                            <input
-                                type="text"
-                                placeholder="Phnom Penh"
-                                class="w-full border border-gray-400 rounded-full px-6 py-4 outline-none focus:ring-2 focus:ring-purple-400" />
-
-                        </div>
-
-                    </div>
-
-                    <!-- Button -->
-                    <div class="flex justify-end mt-10">
-
-                        <button
-                            class="bg-gradient-to-r from-purple-600 to-indigo-500 text-white px-10 py-4 rounded-full text-xl font-semibold shadow-lg hover:scale-105 duration-300">
-                            Save Your Profile
+                <div class="text-center mt-6">
+                    <div class="flex items-center justify-center gap-3">
+                        <h2 class="text-3xl font-extrabold text-gray-900">Chheun Nita</h2>
+                        <button title="Edit Name">
+                            <i class="fa-solid fa-pen-to-square text-blue-500 hover:text-blue-700 transition-colors cursor-pointer"></i>
                         </button>
-
                     </div>
+                    <p class="text-lg font-medium text-gray-500 mt-1">@nitachheun</p>
+                </div>
+            </div>
 
+            <hr class="my-8 border-gray-100">
+
+            <div class="space-y-6 px-4 md:px-10">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                    <span class="text-sm font-bold uppercase tracking-wider text-gray-400">Username</span>
+                    <div class="md:col-span-2 flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <span class="text-gray-800 font-semibold">Chheun Nita</span>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                    <span class="text-sm font-bold uppercase tracking-wider text-gray-400">Phone Number</span>
+                    <div class="md:col-span-2 flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <span class="text-gray-800 font-semibold">088 755 7692</span>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                    <span class="text-sm font-bold uppercase tracking-wider text-gray-400">Email</span>
+                    <div class="md:col-span-2 flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <span class="text-gray-800 font-semibold">chheunnita169@gmail.com</span>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                    <span class="text-sm font-bold uppercase tracking-wider text-gray-400">Address</span>
+                    <div class="md:col-span-2 flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <span class="text-gray-800 font-semibold">Phnom Penh, Cambodia</span>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </div>
                 </div>
 
             </div>
 
+            
+
         </div>
-
     </div>
+</div>
+@endsection
 
-    @endsection
 </body>
-
 </html>
