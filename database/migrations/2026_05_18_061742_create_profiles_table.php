@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,14 +12,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
+
             $table->id();
-            $table->string('title');
-            $table->string('title');
-            $table->string('description');
-            $table->string('due_date');
-            $table->string('priority');
-            $table->string('user_id');
+
+            $table->string('first_name');
+
+            $table->string('last_name');
+
+            $table->string('phone')->nullable();
+
+            $table->string('email');
+
+            $table->string('country');
+
+            $table->string('city');
+
             $table->timestamps();
         });
     }
@@ -28,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('profiles');
     }
 };

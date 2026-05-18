@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -19,6 +20,9 @@ Route::get('/form-profile', function () {
     return view('form-profile');
 });
 
-Route::get('/profile', function () {
-    return view('profile');
-});
+
+
+Route::get('/profile', [ProfileController::class, 'index']);
+
+Route::post('/profile/store', [ProfileController::class, 'store'])
+    ->name('profile.store');

@@ -156,7 +156,7 @@
 
                     <!-- Button -->
                     <div class="flex justify-end mt-10">
-                        <a href="{{ url('/profile') }}"
+                        <a href=""
                             class="inline-block bg-gradient-to-r from-purple-600 to-indigo-500 text-white px-10 py-4 rounded-2xl font-bold shadow-lg shadow-purple-200 hover:shadow-purple-300 hover:-translate-y-1 transition-all active:scale-95">
                             Save Your Profile
                         </a>
